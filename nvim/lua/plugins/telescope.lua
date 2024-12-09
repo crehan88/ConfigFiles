@@ -1,36 +1,9 @@
-local function find_session_vim_file()
-    local cwd = vim.fn.getcwd()
-    local sessionname = vim.fn.system("tmux display-message -p @ '#S'"):gsub("\n", "")
-    local path_sep = package.config:sub(1, 1)
-    local function file_exists(file)
-        local f = io.open(file, "r")
-        if f then f:close() end
-        return f ~= nil
-    end
-
-    local function join_paths(...)
-        return table.concat({ ... }, path_sep)
-    end
-
-    local function search_upwards(dir)
-        while dir ~= os.getenv("HOME") do
-            local vim_file = join_paths(dir, sessionname .. ".vim")
-            if file_exists(vim_file) then
-                return vim_file
-            end
-            dir = dir:match("(.*)" .. path_sep)
-        end
-        return nil
-    end
-
-    return search_upwards(cwd)
-end
-
 return {
     "nvim-telescope/telescope.nvim",
     tag = "0.1.5",
     dependencies = {
-        "nvim-lua/plenary.nvim"
+        "nvim-lua/plenary.nvim",
+        "folke/trouble.nvim"
     },
 
     config = function()

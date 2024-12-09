@@ -14,9 +14,13 @@ vim.keymap.set('n','L','<cmd>tabnext <CR>')
 vim.keymap.set('n','<leader>to','<cmd>tabonly <CR>')
 vim.keymap.set('n','<leader>nc','<cmd>tabnew ~/.config/nvim <CR>')
 vim.keymap.set('n','<leader>et','<cmd>tabnew . <CR>')
+vim.keymap.set('n','<leader>mt',function ()
+    vim.cmd('close | tabnew | buffer ' .. vim.fn.bufnr())
+end)
+vim.keymap.set('n','<leader>es',':vsplit . <cr>')
+vim.keymap.set('n','<leader>ee',':edit . <cr>')
 
 vim.keymap.set('n','<leader>wo','<cmd>only <CR>')
-vim.keymap.set('n','<leader>ee','<cmd>edit . <CR>')
 
 vim.keymap.set('t','<Esc><Esc>','<C-\\><C-n>')
 
@@ -38,9 +42,6 @@ vim.keymap.set({'n','v'},'<leader>d',[["_d]])
 
 vim.keymap.set('n','<leader>f',vim.lsp.buf.format)
 
-vim.keymap.set('n','<leader>k','<cmd>cnext<CR>zz')
-vim.keymap.set('n','<leader>j','<cmd>cprev<CR>zz')
-
 vim.keymap.set('n','<leader>s',[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 vim.keymap.set('n','<leader>ms', function ()
@@ -50,15 +51,15 @@ vim.keymap.set('n','<leader>ms', function ()
 end
 )
 
-vim.keymap.set('n','<leader>ls','<cmd>source % <CR>')
-
 vim.keymap.set('n','<leader>vi',':source ~/.config/nvim/init.lua <CR>')
 
-vim.keymap.set('n','<leader>hd',':Gitsigns diffthis<CR>')
 vim.keymap.set('n','<leader>hs',':Gitsigns stage_hunk<CR>')
 vim.keymap.set('n','<leader>hr',':Gitsigns reset_hunk<CR>')
 vim.keymap.set('n','<leader>hS',':Gitsigns stage_buffer<CR>')
 vim.keymap.set('n','<leader>hR',':Gitsigns reset_buffer<CR>')
+vim.keymap.set('n','<leader>hn',':Gitsigns next_hunk<cr>')
+vim.keymap.set('n','<leader>hp',':Gitsigns prev_hunk<cr>')
+vim.keymap.set('n','<leader>hd',':lua MiniDiff.toggle_overlay()<cr>')
 
 --vim.keymap.set({ 'n','i','v'}, '<C-c>p','<cmd>Copilot panel <CR>')
 --vim.keymap.set({'n','i','v'}, '<C-c>c', function ()
@@ -67,9 +68,20 @@ vim.keymap.set('n','<leader>hR',':Gitsigns reset_buffer<CR>')
         --require("CopilotChat").ask(input, {selection = require("CopilotChat.select").buffer })
     --end
 --end)
---vim.keymap.set('n','<C-c>o',':CopilotChat <CR>')
+--vim.keymap.set('n','<C-c>o',':CopilotChat<CR>')
+--vim.keymap.set('n','<C-c>e',':CopilotChatExplain<cr>')
+--vim.keymap.set('n','<C-c>t',':CopilotChatTests<cr>')
+--vim.keymap.set('n','<C-c>O',':CopilotChatOptimize<cr>')
 
+vim.keymap.set('n','<leader>ws',':WriteSession ')
+vim.keymap.set('n','<leader>ds',':DeleteSession<cr>')
+vim.keymap.set('n','<leader>ss',':lua MiniSessions.select()<cr>')
 
+vim.keymap.set({ 'n' ,'x'},'<leader>gb','<cmd>lua MiniGit.show_at_cursor()<cr>')
+local diff_folds = 'foldmethod=expr foldexpr=v:lua.MiniGit.diff_foldexpr() foldlevel=0'
+vim.cmd('au FileType git,diff setlocal ' .. diff_folds)
+vim.keymap.set('n','<leader>zz','<cmd>lua MiniMisc.zoom()<cr>')
+vim.keymap.set('n','<leader>md',':vsplit ~/.local/share/nvim/lazy/mini.nvim<cr>')
 
 
 
